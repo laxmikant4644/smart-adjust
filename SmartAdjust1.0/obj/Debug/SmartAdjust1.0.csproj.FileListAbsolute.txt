@@ -1,0 +1,9 @@
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\bin\Debug\SmartAdjust1.0.exe.config
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\bin\Debug\SmartAdjust1.0.exe
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\bin\Debug\SmartAdjust1.0.pdb
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\obj\Debug\SmartAdjust1.0.csprojResolveAssemblyReference.cache
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\obj\Debug\SmartAdjust1._0.Form1.resources
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\obj\Debug\SmartAdjust1._0.Properties.Resources.resources
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\obj\Debug\SmartAdjust1.0.csproj.GenerateResource.Cache
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\obj\Debug\SmartAdjust1.0.exe
+c:\users\revdikar\documents\visual studio 2013\Projects\SmartAdjust1.0\SmartAdjust1.0\obj\Debug\SmartAdjust1.0.pdb

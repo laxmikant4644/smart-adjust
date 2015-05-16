@@ -8,11 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace SmartAdjust1._0
 {
+
+
+
     public partial class Form1 : Form
     {
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern bool ShowWindow(IntPtr hwnd, int nCmdShow);
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool SetForegroundWindow(IntPtr hwnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        // Find window by Caption only. Note you must pass IntPtr.Zero as the first parameter.
+        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
+        internal static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
 
         Process[] processlist;
 
@@ -33,6 +50,7 @@ namespace SmartAdjust1._0
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            treeView1.TabStop = false;
             loadAllProcesses();
         }
 
@@ -56,6 +74,11 @@ namespace SmartAdjust1._0
                 {
                     treeView1.Nodes.Add(theprocess.ProcessName, theprocess.ProcessName);
                     treeView1.Nodes[treeView1.Nodes.Count - 1].Nodes.Add("" + theprocess.Id, "" + theprocess.Id + "    " + theprocess.MainWindowTitle);
+                }
+
+                if (!String.IsNullOrEmpty(theprocess.MainWindowTitle))
+                {
+                    //MessageBox.Show(theprocess.MainWindowTitle);
                 }
 
             }
@@ -104,7 +127,7 @@ namespace SmartAdjust1._0
             }
 
 
-            loadAllProcesses();
+           // loadAllProcesses();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -137,6 +160,60 @@ namespace SmartAdjust1._0
                     this.CheckAllChildNodes(node, nodeChecked);
                 }
             }
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+            if (e.Node.Nodes.Count > 0)
+            {
+                return;
+            }
+
+            MessageBox.Show(e.Node.Text);
+
+            try
+            {
+                Process p = Process.GetProcessById(Convert.ToInt32(e.Node.Text.Split(' ')[0]));
+                //MessageBox.Show(e.Node.Text);
+                //SetFocus(new HandleRef(null, Process.GetProcessById(Convert.ToInt32(e.Node.Text.Split(' ')[0])).MainWindowHandle));
+
+
+                ShowWindow(p.MainWindowHandle, 1);
+                SetForegroundWindow(p.MainWindowHandle);
+            }
+            catch (Exception exp)
+            {
+                treeView1.SelectedNode = null;
+                MessageBox.Show(exp.Message);
+                if (e.Node.Parent.Nodes.Count == 1)
+                {
+                    e.Node.Parent.Remove();
+                }
+                else
+                {
+                    e.Node.Remove();
+                }
+                
+            }
+            
+        }
+
+        public static IntPtr Find(string ModuleName, string MainWindowTitle)
+        {
+            //Search the window using Module and Title
+            IntPtr WndToFind = FindWindow(ModuleName, MainWindowTitle);
+            if (WndToFind.Equals(IntPtr.Zero))
+            {
+                if (!string.IsNullOrEmpty(MainWindowTitle))
+                {
+                    //Search window using TItle only.
+                    WndToFind = FindWindowByCaption(WndToFind, MainWindowTitle);
+                    if (WndToFind.Equals(IntPtr.Zero))
+                        return new IntPtr(0);
+                }
+            }
+            return WndToFind;
         }
     }
 }
